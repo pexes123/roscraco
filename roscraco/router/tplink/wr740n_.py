@@ -14,7 +14,7 @@ class Tplink_WR740N_(OLD_Tplink_WR740N):
             encoded = encoded.decode('ascii')
         return encoded
     
-    @property
+    @propert
     def url_encode(self):
         auth_string = '{0}:{1}'.format(self.username, hashlib.md5(self.password.encode('utf-8')).hexdigest())
         auth_string = bytes(auth_string, 'ascii')
@@ -23,7 +23,7 @@ class Tplink_WR740N_(OLD_Tplink_WR740N):
         return encoded
     
     @property
-    def url_base_self():
+    def url_base_(self):
         return 'http://%s:%d/userRpm/LoginRpm.htm?Save=Save' % (self.host, self.port)
 
     def _perform_http_request(self, *args, **kwargs):
