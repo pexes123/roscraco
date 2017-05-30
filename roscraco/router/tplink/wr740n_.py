@@ -14,7 +14,7 @@ class Tplink_WR740N_(OLD_Tplink_WR740N):
             encoded = encoded.decode('ascii')
         return encoded
 
-    @property       
+    @property
     def url_encode(self):
         auth_string = '{0}:{1}'.format(self.username, hashlib.md5(self.password.encode('utf-8')).hexdigest())
         auth_string = bytes(auth_string, 'ascii')
