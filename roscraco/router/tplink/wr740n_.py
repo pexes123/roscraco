@@ -25,14 +25,6 @@ class Tplink_WR740N_(OLD_Tplink_WR740N):
     @property
     def url_base_(self):
         return 'http://%s:%d/userRpm/LoginRpm.htm?Save=Save' % (self.host, self.port)
-    @property
-    def url_base(self):
-        """The base URL to which all requests would be relative to.
-
-        Subclasses may wish to override this to make things
-        more convenient.
-        """
-        return 'http://%s:%d/' % (self.host, self.port)
 
     def _perform_http_request(self, *args, **kwargs):
         kwargs['headers'] = [
