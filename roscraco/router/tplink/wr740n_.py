@@ -13,7 +13,7 @@ class Tplink_WR740N_(OLD_Tplink_WR740N):
         if sys.version_info[0] >= 3:
             encoded = encoded.decode('ascii')
         return encoded
-    
+
     @property
         def url_encode(self):
         auth_string = '{0}:{1}'.format(self.username, hashlib.md5(self.password.encode('utf-8')).hexdigest())
@@ -23,7 +23,7 @@ class Tplink_WR740N_(OLD_Tplink_WR740N):
         return encoded
 
     @property
-    def url_base_(self):
+        def url_base_(self):
         return 'http://%s:%d/userRpm/LoginRpm.htm?Save=Save' % (self.host, self.port)
 
     def _perform_http_request(self, *args, **kwargs):
@@ -62,3 +62,4 @@ def _parse_traffic_stats(data_array):
         raise RouterParseError('Unexpected stats size: %d' % len(data_array))
     data_array = map(lambda x: int(x.replace(',', '')), data_array)
     return TrafficStats(*data_array)
+
