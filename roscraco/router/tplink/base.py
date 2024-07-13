@@ -102,7 +102,8 @@ class TplinkBase(RouterBase):
 
     def _ensure_www_auth_header(self, header_value_expected):
         info = self._perform_http_request('%sStatusRpm.htm' % self.url_base)[1]
-        header_auth = info.getheader('WWW-Authenticate')
+        header_auth = info['WWW-Authenticate'] if info.__class__.__name__ == 'HTTPMessage' else info.getheader(
+            'WWW-Authenticate') # <class 'http.client.HTTPMessage'> has no method getheader
         if header_auth != header_value_expected:
             raise RouterIdentityError(
                 'Bad or missing WWW-Authenticate header: %s/%s' %
