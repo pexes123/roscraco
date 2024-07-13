@@ -42,15 +42,24 @@ class Tplink_WR740N_(OLD_Tplink_WR740N):
         req.add_header('Cookie', 'Authorization=' + urllib.parse.quote('Basic {0}'.format(self.url_encode)))
 
         regex = re.compile(r'{0}[:{1}]?'.format(self.host, self.port)+'/(.*?)/userRpm/Index.htm')
-        search_object = regex.findall(str(urllib.request.urlopen(req, timeout=timeout).read()))
-        return search_object
+        resp0 = urllib.request.urlopen(req, timeout=timeout).read() # workaround for stable connect
+        resp = urllib.request.urlopen(req, timeout=timeout).read()
+        search_object = regex.findall(str(resp))
 
-    def get_router_info(self):
-        search_object = self.connect()
         if not search_object:
             raise RouterFetchError("< HTTPError 401: 'N/A' >")
 
-        setattr(Tplink_WR740N_, 'url_base', 'http://{0}:{1}'.format(self.host, self.port) + '/' + search_object[0] + '/userRpm/')
+        setattr(Tplink_WR740N_, 'url_base',
+                'http://{0}:{1}'.format(self.host, self.port) + '/' + search_object[0] + '/userRpm/')
+
+        return resp
+
+    def close(self):
+        contents = self._make_http_request_read('LogoutRpm.htm')
+        return contents
+
+    def get_router_info(self):
+        self.connect()
         return super().get_router_info()
 
     def get_traffic_stats(self):
