@@ -39,10 +39,12 @@ The library supports the following devices:
     - WR340G (until v3)
     - WR340Gv4
     - WR720N
-    - WR740N
+    - WR740N_vX (module wr740n)
+    - WR740N_vY (module wr740n_)
     - WR741N
     - WR940N
     - WR941N
+    - Archer C7v2 (module wr740n_)
 * Netgear
     - WGR614v7
     - WGR614v8

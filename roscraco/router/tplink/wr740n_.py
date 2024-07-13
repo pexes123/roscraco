@@ -15,7 +15,7 @@ class Tplink_WR740N_(OLD_Tplink_WR740N):
         return encoded
 
     @property
-        def url_encode(self):
+    def url_encode(self):
         auth_string = '{0}:{1}'.format(self.username, hashlib.md5(self.password.encode('utf-8')).hexdigest())
         auth_string = bytes(auth_string, 'ascii')
         encoded = base64.b64encode(auth_string)
@@ -23,7 +23,7 @@ class Tplink_WR740N_(OLD_Tplink_WR740N):
         return encoded
 
     @property
-        def url_base_(self):
+    def url_base_(self):
         return 'http://%s:%d/userRpm/LoginRpm.htm?Save=Save' % (self.host, self.port)
 
     def _perform_http_request(self, *args, **kwargs):
@@ -41,7 +41,7 @@ class Tplink_WR740N_(OLD_Tplink_WR740N):
         req.add_header('Referer', 'http://{0}'.format(self.host + '/'))
         req.add_header('Cookie', 'Authorization=' + urllib.parse.quote('Basic {0}'.format(self.url_encode)))
 
-        regex = re.compile(r'{0}:{1}'.format(self.host, self.port)+'/(.*?)/userRpm/Index.htm')
+        regex = re.compile(r'{0}[:{1}]?'.format(self.host, self.port)+'/(.*?)/userRpm/Index.htm')
         search_object = regex.findall(str(urllib.request.urlopen(req, timeout=timeout).read()))
         return search_object
 
@@ -60,6 +60,6 @@ def _parse_traffic_stats(data_array):
     data_array = data_array[:4]
     if len(data_array) != 4:
         raise RouterParseError('Unexpected stats size: %d' % len(data_array))
-    data_array = map(lambda x: int(x.replace(',', '')), data_array)
+    data_array = map(lambda x: int(str(x).replace(',', '')), data_array)
     return TrafficStats(*data_array)
 
