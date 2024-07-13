@@ -58,17 +58,10 @@ class Tplink_WR740N_(OLD_Tplink_WR740N):
         contents = self._make_http_request_read('LogoutRpm.htm')
         return contents
 
-    def get_router_info(self):
-        self.connect()
-        return super().get_router_info()
-
-    def get_traffic_stats(self):
-        return _parse_traffic_stats(self._get_status_array('statistList'))
-
-def _parse_traffic_stats(data_array):
-    data_array = data_array[:4]
-    if len(data_array) != 4:
-        raise RouterParseError('Unexpected stats size: %d' % len(data_array))
-    data_array = map(lambda x: int(str(x).replace(',', '')), data_array)
-    return TrafficStats(*data_array)
-
+    @staticmethod
+    def _parse_traffic_stats(data_array):
+        data_array = data_array[:4]
+        if len(data_array) != 4:
+            raise RouterParseError('Unexpected stats size: %d' % len(data_array))
+        data_array = map(lambda x: int(str(x).replace(',', '')), data_array)
+        return TrafficStats(*data_array)
